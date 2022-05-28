@@ -22,13 +22,13 @@ driveCheckboxes = [sg.Checkbox(drives[i], key=drives[i], background_color = "gre
 
 sg.theme('Dark2')   # Add a touch of color
 # All the stuff inside your window.
-layout = [  [sg.Button('Instructions', button_color='black'),],
-            [sg.Text('Start Date UTC: '), sg.InputText(default_text="YYYY-MM-DD", key="startDate"), sg.CalendarButton(button_text="Choose Date", format = "%Y-%m-%d"), sg.Text('', key='startDateError')],
-            [sg.Text('End Date UTC: '), sg.InputText(default_text="YYYY-MM-DD", key="endDate"), sg.CalendarButton(button_text="Choose Date", format = "%Y-%m-%d"), sg.Text('', key='endDateError')],
-            [sg.Text('Select Drives NOT to query: ')],
+layout = [  [sg.Button('Instructions', button_color='black'), sg.Text('       Select Language', key='selectLanguageLabel'), sg.Button('🇬🇧English', button_color='grey30'), sg.Button('🇪🇸Español', button_color='grey30'),],
+            [sg.Text('Start Date UTC: ', key='startDateLabel'), sg.InputText(default_text="YYYY-MM-DD", key="startDate"), sg.CalendarButton(button_text="Choose Date", format = "%Y-%m-%d", button_color='orange red', locale = 'fr_FR'), sg.Text('', key='startDateError')],
+            [sg.Text('End Date UTC: ', key='endDateLabel'), sg.InputText(default_text="YYYY-MM-DD", key="endDate"), sg.CalendarButton(button_text="Choose Date", format = "%Y-%m-%d", button_color='orange red', locale = 'es_ES'), sg.Text('', key='endDateError')],
+            [sg.Text('Select Drives NOT to query: ', key='drivesLabel')],
             [driveCheckboxes],
-            [sg.Text('Node Dump Location: '), sg.InputText(default_text="", key="outputLoc"), sg.FolderBrowse(button_text = "Browse"), sg.Text('', key='outputLocError')],
-            [sg.Button('Start Querying', button_color='dark green'), sg.Button('Stop Querying', button_color='dark orange'), sg.Button('Finish Copying & Exit', button_color='dark red')],
+            [sg.Text('Node Dump Location: ', key='outputLocLabel'), sg.InputText(default_text="", key="outputLoc"), sg.FolderBrowse(button_text = "Browse", button_color='orange red'), sg.Text('', key='outputLocError')],
+            [sg.Button('Start Querying', button_color='dark green', key='startButton'), sg.Button('Stop Querying', button_color='dark orange', key='stopButton'), sg.Button('Finish Copying & Exit', button_color='dark red', key='exitButton')],
             [sg.Text('')],
             [sg.ProgressBar(100, orientation='horizontal', key="progressSD"), sg.Text('Files on SD')],
             [sg.ProgressBar(100, orientation='horizontal', key="progressFile"), sg.Text('Specific File')],
@@ -41,9 +41,22 @@ window = sg.Window('DIAS Automated Manual Dumping', layout)
 while True:
     event, values = window.read()
 
-    if event == 'Instructions':
+    if event == '🇪🇸Español':
+        window['selectLanguageLabel'].update('Seleccione El Idioma')
+        window['startDateLabel'].update('Día Inicio UTC')
+        if values['startDate'] == 'YYYY-MM-DD':
+            window['startDate'].update("AAAA-MM-DD")
+        window['endDateLabel'].update('Día Final UTC')
+        if values['endDate'] == 'YYYY-MM-DD':
+            window['endDate'].update("AAAA-MM-DD")
+        window['drivesLabel'].update('Seleccionar discos miembros para NO buscar')
+        window['outputLocLabel'].update('Ubicación De Transferencia De Archivos')
+
+
+    if event == 'Instructions': #Maybe add this as a side panel, or include screenshot images in instructions
         print("Requested Instructions")
         sg.popup('Instructions')
+
     if event == 'Start Querying':
         print("Starting Query")
         inputErrorTxt = ""
@@ -75,8 +88,12 @@ while True:
 
     if event == 'Stop Querying':
         print("Stopping Query")
-    if event == sg.WIN_CLOSED or event == 'Finish Copying & Exit': # if user closes window or clicks cancel
 
+    if event == 'Finish Copying & Exit':
+        #Add code to graceful exit
+        break
+
+    if event == sg.WIN_CLOSED: # if user closes window or clicks cancel
         break
 
 window.close()
