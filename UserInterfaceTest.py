@@ -51,6 +51,64 @@ def checkInput(values):
     else:
         return True
 
+def changeLanguage(window, code):
+    if code == 'EN':
+        window['instructions'].update('Instructions')
+        window['selectLanguageLabel'].update('       Select Language')
+        window['startDateLabel'].update('Start Date UTC: ')
+        if values['startDate'] == 'AAAA-MM-JJ' or values['startDate'] == 'AAAA-MM-DD':
+            window['startDate'].update("YYYY-MM-DD")
+        window['endDateLabel'].update('End Date UTC: ')
+        if values['endDate'] == 'AAAA-MM-JJ' or values['startDate'] == 'AAAA-MM-DD':
+            window['endDate'].update("YYYY-MM-DD")
+        window['drivesLabel'].update('Select Drives NOT to query: ')
+        window['outputLocLabel'].update('Node Dump Location: ')
+        window['startDateCal'].update('Choose Date')
+        window['endDateCal'].update('Choose Date')
+        window['browse'].update('Browse')
+        window['startButton'].update('Start Query')
+        window['stopButton'].update('Stop Query')
+        window['exitButton'].update('Finish Copying & Exit')
+
+    elif code == 'ES':
+        window['instructions'].update('Instrucciones')
+        window['selectLanguageLabel'].update('       Seleccione El Idioma')
+        window['startDateLabel'].update('Día Inicio UTC: ')
+        if values['startDate'] == 'YYYY-MM-DD':
+            window['startDate'].update("AAAA-MM-DD")
+        window['endDateLabel'].update('Día Final UTC: ')
+        if values['endDate'] == 'YYYY-MM-DD':
+            window['endDate'].update("AAAA-MM-DD")
+        window['drivesLabel'].update('Seleccionar discos miembros para NO buscar: ')
+        window['outputLocLabel'].update('Ubicación De Transferencia De Archivos: ')
+        window['startDateCal'].update('Elige Fecha')
+        window['endDateCal'].update('Elige Fecha')
+        window['browse'].update('Navegar')
+        window['startButton'].update('Iniciar Búsqueda')
+        window['stopButton'].update('Detener Búsqueda')
+        window['exitButton'].update('Finalizar Descarga & Salir')
+
+    elif code == 'FR':
+        window['instructions'].update('Instructions')
+        window['selectLanguageLabel'].update('       Choisir La Langue')
+        window['startDateLabel'].update('Date De Début UTC: ')
+        if values['startDate'] == 'YYYY-MM-DD' or values['startDate'] == 'AAAA-MM-DD':
+            window['startDate'].update("AAAA-MM-JJ")
+        window['endDateLabel'].update('Date De Fin UTC: ')
+        if values['endDate'] == 'YYYY-MM-DD' or values['startDate'] == 'AAAA-MM-DD':
+            window['endDate'].update("AAAA-MM-JJ")
+        window['drivesLabel'].update('Sélectionnez Les Disque Á Ne Pas Interroger: ')
+        window['outputLocLabel'].update('Emplacement De Transfert De Fichiers: ')
+        window['startDateCal'].update('Choisir Date')
+        window['endDateCal'].update('Choisir Date')
+        window['browse'].update('Naviguer')
+        window['startButton'].update('Démarrer Requête')
+        window['stopButton'].update('Arrêter Requête')
+        window['exitButton'].update('Terminer La Copie & Quitter')
+
+    window.refresh()
+    return
+
 if operatingSystem == 'Darwin': #Mac
     drives = os.listdir('/Volumes')
     print(drives)
@@ -90,60 +148,15 @@ while True:
 
     if event == '🇪🇸Español':
         language = 'ES'
-        window['instructions'].update('Instrucciones')
-        window['selectLanguageLabel'].update('       Seleccione El Idioma')
-        window['startDateLabel'].update('Día Inicio UTC: ')
-        if values['startDate'] == 'YYYY-MM-DD':
-            window['startDate'].update("AAAA-MM-DD")
-        window['endDateLabel'].update('Día Final UTC: ')
-        if values['endDate'] == 'YYYY-MM-DD':
-            window['endDate'].update("AAAA-MM-DD")
-        window['drivesLabel'].update('Seleccionar discos miembros para NO buscar: ')
-        window['outputLocLabel'].update('Ubicación De Transferencia De Archivos: ')
-        window['startDateCal'].update('Elige Fecha')
-        window['endDateCal'].update('Elige Fecha')
-        window['browse'].update('Navegar')
-        window['startButton'].update('Iniciar Búsqueda')
-        window['stopButton'].update('Detener Búsqueda')
-        window['exitButton'].update('Finalizar Descarga & Salir')
+        changeLanguage(window, language)
 
     elif event == '🇬🇧English':
         language = 'EN'
-        window['instructions'].update('Instructions')
-        window['selectLanguageLabel'].update('       Select Language')
-        window['startDateLabel'].update('Start Date UTC: ')
-        if values['startDate'] == 'AAAA-MM-JJ' or values['startDate'] == 'AAAA-MM-DD':
-            window['startDate'].update("YYYY-MM-DD")
-        window['endDateLabel'].update('End Date UTC: ')
-        if values['endDate'] == 'AAAA-MM-JJ'or values['startDate'] == 'AAAA-MM-DD':
-            window['endDate'].update("YYYY-MM-DD")
-        window['drivesLabel'].update('Select Drives NOT to query: ')
-        window['outputLocLabel'].update('Node Dump Location: ')
-        window['startDateCal'].update('Choose Date')
-        window['endDateCal'].update('Choose Date')
-        window['browse'].update('Browse')
-        window['startButton'].update('Start Query')
-        window['stopButton'].update('Stop Query')
-        window['exitButton'].update('Finish Copying & Exit')
+        changeLanguage(window, language)
 
     elif event == '🇫🇷Français':
         language = 'FR'
-        window['instructions'].update('Instructions')
-        window['selectLanguageLabel'].update('       Choisir La Langue')
-        window['startDateLabel'].update('Date De Début UTC: ')
-        if values['startDate'] == 'YYYY-MM-DD' or values['startDate'] == 'AAAA-MM-DD':
-            window['startDate'].update("AAAA-MM-JJ")
-        window['endDateLabel'].update('Date De Fin UTC: ')
-        if values['endDate'] == 'YYYY-MM-DD'or values['startDate'] == 'AAAA-MM-DD':
-            window['endDate'].update("AAAA-MM-JJ")
-        window['drivesLabel'].update('Sélectionnez Les Disque Á Ne Pas Interroger: ')
-        window['outputLocLabel'].update('Emplacement De Transfert De Fichiers: ')
-        window['startDateCal'].update('Choisir Date')
-        window['endDateCal'].update('Choisir Date')
-        window['browse'].update('Naviguer')
-        window['startButton'].update('Démarrer Requête')
-        window['stopButton'].update('Arrêter Requête')
-        window['exitButton'].update('Terminer La Copie & Quitter')
+        changeLanguage(window, language)
 
 
     if event == 'Instructions': #Maybe add this as a side panel, or include screenshot images in instructions
