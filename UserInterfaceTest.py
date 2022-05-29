@@ -61,7 +61,7 @@ def changeLanguage(window, code):
         window['endDateLabel'].update('End Date UTC: ')
         if values['endDate'] == 'AAAA-MM-JJ' or values['startDate'] == 'AAAA-MM-DD':
             window['endDate'].update("YYYY-MM-DD")
-        window['drivesLabel'].update('Select Drives NOT to query: ')
+        window['drivesLabel'].update('Select Drives NOT To Query: ')
         window['outputLocLabel'].update('Node Dump Location: ')
         window['startDateCal'].update('Choose Date')
         window['endDateCal'].update('Choose Date')
@@ -79,7 +79,7 @@ def changeLanguage(window, code):
         window['endDateLabel'].update('Día Final UTC: ')
         if values['endDate'] == 'YYYY-MM-DD':
             window['endDate'].update("AAAA-MM-DD")
-        window['drivesLabel'].update('Seleccionar discos miembros para NO buscar: ')
+        window['drivesLabel'].update('Seleccionar Discos Miembros Para NO Buscar: ')
         window['outputLocLabel'].update('Ubicación De Transferencia De Archivos: ')
         window['startDateCal'].update('Elige Fecha')
         window['endDateCal'].update('Elige Fecha')
@@ -109,19 +109,28 @@ def changeLanguage(window, code):
     window.refresh()
     return
 
-if operatingSystem == 'Darwin': #Mac
-    drives = os.listdir('/Volumes')
-    print(drives)
+def checkOS():
+    return platform.system()
 
-if operatingSystem == 'Linux': #Linux
-    print(os.listdir('/Volumes'))
+def checkDrives(operatingSystem):
+    if operatingSystem == 'Darwin':  # Mac
+        drives = os.listdir('/Volumes')
+        #print(drives)
 
-if operatingSystem == 'Windows': #Windows
-    import os.path
-    dl = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
-    drives = ['%s:' % d for d in dl if os.path.exists('%s:' % d)]
-    print(drives)
+    if operatingSystem == 'Linux':  # Linux
+        pass #TODO need check drives in Linux
+        #print(os.listdir('/Volumes'))
 
+    if operatingSystem == 'Windows':  # Windows
+        dl = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+        drives = ['%s:' % d for d in dl if os.path.exists('%s:' % d)]
+        #print(drives)
+
+    return drives
+
+
+operatingSystem = checkOS()
+drives = checkDrives(operatingSystem)
 driveCheckboxes = [sg.Checkbox(drives[i], key=drives[i], background_color = "grey25", text_color = "snow") for i in range(len(drives))]
 
 sg.theme('Dark2')   # Add a touch of color
@@ -129,7 +138,7 @@ sg.theme('Dark2')   # Add a touch of color
 layout = [  [sg.Button('Instructions', button_color='black', key="instructions"), sg.Text('       Select Language', key='selectLanguageLabel'), sg.Button('🇬🇧English', button_color='grey30'), sg.Button('🇪🇸Español', button_color='grey30'), sg.Button('🇫🇷Français', button_color='grey30')],
             [sg.Text('Start Date UTC: ', key='startDateLabel'), sg.InputText(default_text="YYYY-MM-DD", key="startDate"), sg.CalendarButton(button_text="Choose Date", format = "%Y-%m-%d", button_color='orange red', locale = 'fr_FR', key="startDateCal"), sg.Text('', key='startDateError')],
             [sg.Text('End Date UTC: ', key='endDateLabel'), sg.InputText(default_text="YYYY-MM-DD", key="endDate"), sg.CalendarButton(button_text="Choose Date", format = "%Y-%m-%d", button_color='orange red', locale = 'es_ES', key="endDateCal"), sg.Text('', key='endDateError')],
-            [sg.Text('Select Drives NOT to query: ', key='drivesLabel')],
+            [sg.Text('Select Drives NOT To Query: ', key='drivesLabel')],
             [driveCheckboxes],
             [sg.Text('Node Dump Location: ', key='outputLocLabel'), sg.InputText(default_text="", key="outputLoc"), sg.FolderBrowse(button_text = "Browse", button_color='orange red', key='browse'), sg.Text('', key='outputLocError')],
             [sg.Button('Start Querying', button_color='dark green', key='startButton'), sg.Button('Stop Querying', button_color='dark orange', key='stopButton'), sg.Button('Finish Copying & Exit', button_color='dark red', key='exitButton')],
@@ -179,7 +188,7 @@ while True:
         #Add code to graceful exit
         break
 
-    if event == sg.WIN_CLOSED: # if user closes window or clicks cancel
+    if event == sg.WIN_CLOSED: # if user closes window
         break
 
 window.close()
